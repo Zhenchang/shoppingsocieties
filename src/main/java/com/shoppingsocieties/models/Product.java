@@ -7,14 +7,28 @@ public class Product extends Model {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
     @Column(unique = true)
     private String name;
     private Float price;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Currency currency;
     @OneToOne(mappedBy = "product")
     private Sale sale;
+
+    public Product() {
+    }
+
+    public Product(long id) {
+        this.id = id;
+    }
+
+    public Product(String name, float price, Currency currency) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.currency = currency;
+    }
 
     public String getName() {
         return name;
@@ -43,21 +57,21 @@ public class Product extends Model {
         return this;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public Product setId(long id) {
-        this.id = id;
-        return this;
-    }
-
     public Float getPrice() {
         return price;
     }
 
     public Product setPrice(Float price) {
         this.price = price;
+        return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Product setId(Long id) {
+        this.id = id;
         return this;
     }
 }
