@@ -35,7 +35,7 @@ public class ProductRepositoryTest {
             em.persist(currency);
         }
 
-        Product product = new Product( 1.5f, currency);
+        Product product = new Product(1.5f, currency);
         testProductId = (long) em.persistAndGetId(product);
     }
 
@@ -49,7 +49,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void saveTest() {
-        Product product = new Product( 999f, currency);
+        Product product = new Product(999f, currency);
         long id = productRepository.save(product).getId();
         Product expected = em.find(Product.class, id);
         Assert.assertEquals(expected.getPrice().compareTo(999f), 0);

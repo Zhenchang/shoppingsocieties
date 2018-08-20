@@ -93,7 +93,7 @@ public class SaleRepositoryTest {
         product = em.persist(product);
         sale = new Sale(product, country, 10, Timestamp.valueOf("2018-08-07 00:00:00"), Timestamp.valueOf("2018-08-31 00:00:00"));
         expectedIds.add((Long) em.persistAndGetId(sale));
-        product = new Product( 13.3f, currency);
+        product = new Product(13.3f, currency);
         product = em.persist(product);
         em.persist(new Sale(product, country, 10, Timestamp.valueOf("2018-08-07 00:00:00"), Timestamp.valueOf("2018-08-10 00:00:00")));
         product = new Product(13.3f, currency);

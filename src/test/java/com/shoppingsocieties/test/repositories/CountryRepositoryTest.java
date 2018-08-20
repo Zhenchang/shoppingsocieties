@@ -1,11 +1,8 @@
 package com.shoppingsocieties.test.repositories;
 
 import com.shoppingsocieties.models.Country;
-import com.shoppingsocieties.models.Currency;
-import com.shoppingsocieties.models.Product;
 import com.shoppingsocieties.repositories.CountryRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
