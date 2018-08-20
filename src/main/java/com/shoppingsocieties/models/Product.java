@@ -8,8 +8,6 @@ public class Product extends Model {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(unique = true)
-    private String name;
     private Float price;
     @ManyToOne(optional = false)
     private Currency currency;
@@ -23,20 +21,10 @@ public class Product extends Model {
         this.id = id;
     }
 
-    public Product(String name, float price, Currency currency) {
+    public Product(float price, Currency currency) {
         this.id = id;
-        this.name = name;
         this.price = price;
         this.currency = currency;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Product setName(String name) {
-        this.name = name;
-        return this;
     }
 
     public Sale getSale() {

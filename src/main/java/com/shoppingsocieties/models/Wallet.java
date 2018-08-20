@@ -8,7 +8,7 @@ public class Wallet extends Model {
     @Id
     @SequenceGenerator(name = "seq", sequenceName = "WALLET_ID_SEQ", initialValue = 2)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
-    private long id;
+    private Long id;
     private Float balance;
     @ManyToOne
     private Currency currency;
@@ -25,11 +25,11 @@ public class Wallet extends Model {
         return this;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public Wallet setId(long id) {
+    public Wallet setId(Long id) {
         this.id = id;
         return this;
     }

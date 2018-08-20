@@ -13,10 +13,23 @@ public class Sale extends Model {
     private Product product;
     @ManyToOne
     private Country country;
-    private int totalItems;
-    private int itemsLeft;
+    private Integer totalItems;
+    private Integer itemsLeft;
     private Timestamp startTime;
     private Timestamp endTime;
+
+    public Sale() {
+    }
+
+    public Sale(Product product, Country country, int totalItems, Timestamp startTime, Timestamp endTime) {
+        this.product = product;
+        this.country = country;
+        this.totalItems = totalItems;
+        this.itemsLeft = totalItems;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.endTime = endTime;
+    }
 
     public long getId() {
         return id;
@@ -36,20 +49,20 @@ public class Sale extends Model {
         return this;
     }
 
-    public int getTotalItems() {
+    public Integer getTotalItems() {
         return totalItems;
     }
 
-    public Sale setTotalItems(int totalItems) {
+    public Sale setTotalItems(Integer totalItems) {
         this.totalItems = totalItems;
         return this;
     }
 
-    public int getItemsLeft() {
+    public Integer getItemsLeft() {
         return itemsLeft;
     }
 
-    public Sale setItemsLeft(int itemsLeft) {
+    public Sale setItemsLeft(Integer itemsLeft) {
         this.itemsLeft = itemsLeft;
         return this;
     }

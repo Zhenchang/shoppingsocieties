@@ -10,19 +10,15 @@ public class Country extends Model {
 
     @Id
     @GeneratedValue
-    private long id;
-    @Column(unique = true)
-    private String name;
+    private Long id;
     @Column(unique = true)
     private String code;
 
-    public String getName() {
-        return name;
+    public Country() {
     }
 
-    public Country setName(String name) {
-        this.name = name;
-        return this;
+    public Country(String code) {
+        this.code = code;
     }
 
     public String getCode() {
@@ -31,6 +27,15 @@ public class Country extends Model {
 
     public Country setCode(String code) {
         this.code = code;
+        return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Country setId(Long id) {
+        this.id = id;
         return this;
     }
 }

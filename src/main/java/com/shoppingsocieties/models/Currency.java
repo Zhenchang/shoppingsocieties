@@ -12,8 +12,6 @@ public class Currency extends Model {
     @GeneratedValue
     private Long id;
     @Column(unique = true)
-    private String name;
-    @Column(unique = true)
     private String code;
     // Exchange rate to USD.
     private Float exchangeRate;
@@ -21,19 +19,9 @@ public class Currency extends Model {
     public Currency() {
     }
 
-    public Currency(String name, String code, float exchangeRate) {
-        this.name = name;
+    public Currency(String code, float exchangeRate) {
         this.code = code;
         this.exchangeRate = exchangeRate;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Currency setName(String name) {
-        this.name = name;
-        return this;
     }
 
     public String getCode() {

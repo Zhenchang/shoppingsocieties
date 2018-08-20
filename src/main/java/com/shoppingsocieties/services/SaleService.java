@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,8 @@ public class SaleService {
         if (!optionalCountry.isPresent()) {
             throw new IllegalArgumentException(String.format("Invalid country code [%s].", countryCode));
         }
-        return saleRepository.getCurrentSalesByCountryCode(optionalCountry.get());
+        Timestamp now = Timestamp.from(Instant.now());
+        return saleRepository.findByCountryAndStartTimeBeforeAndEndTimeAfter(optionalCountry.get(), now, now);
     }
 
     public void purchase(long productId, long customerId) throws PurchaseException {

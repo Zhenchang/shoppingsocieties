@@ -27,16 +27,15 @@ public class ProductRepositoryTest {
 
     @Before
     public void init() {
-        Assert.assertNotNull(em);
         currency = em.find(Currency.class, 0L);
         if (currency != null && "SGD".equals(currency.getCode()))
             return;
         else {
-            currency = new Currency("Singapore Dollar", "SGD", 1);
+            currency = new Currency("SGD", 1);
             em.persist(currency);
         }
 
-        Product product = new Product("Pencil", 1.5f, currency);
+        Product product = new Product( 1.5f, currency);
         testProductId = (long) em.persistAndGetId(product);
     }
 
@@ -50,11 +49,10 @@ public class ProductRepositoryTest {
 
     @Test
     public void saveTest() {
-        Product product = new Product("iPhone", 999f, currency);
+        Product product = new Product( 999f, currency);
         long id = productRepository.save(product).getId();
         Product expected = em.find(Product.class, id);
         Assert.assertEquals(expected.getPrice().compareTo(999f), 0);
-        Assert.assertEquals(expected.getName(), "iPhone");
         Assert.assertEquals(expected.getCurrency().getId(), product.getCurrency().getId());
     }
 
@@ -69,7 +67,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void deleteTest() {
-        long idToBeDeleted = (long) em.persistAndGetId(new Product("Wine", 23.33f, currency));
+        long idToBeDeleted = (long) em.persistAndGetId(new Product(23.33f, currency));
         Assert.assertNotNull(em.find(Product.class, idToBeDeleted));
         productRepository.delete(new Product(idToBeDeleted));
         Assert.assertNull(em.find(Product.class, idToBeDeleted));
