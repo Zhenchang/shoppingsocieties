@@ -84,10 +84,19 @@ public class SaleRepositoryTest {
     }
 
     @Test
+    public void getCurrentSalesByCountry_EmptyListTest() {
+        Country country = new Country("CHN");
+        country = em.persist(country);
+        Timestamp now = Timestamp.from(Instant.now());
+        List<Sale> result = saleRepository.findByCountryAndStartTimeBeforeAndEndTimeAfter(country, now, now);
+        Assert.assertArrayEquals(result.toArray(), new Sale[0]);
+    }
+
+    @Test
     public void getCurrentSalesByCountryTest() {
         List<Long> expectedIds = new ArrayList<>();
         List<Long> ids = new ArrayList<>();
-        Sale sale = new Sale(product, country, 10, Timestamp.valueOf("2018-07-07 00:00:00"), Timestamp.valueOf("2018-10-08 00:00:00"));
+        Sale sale = new Sale(product, country, 10, Timestamp.valueOf("2018-07-07 00:00:00"), Timestamp.valueOf("2018-12-08 00:00:00"));
         expectedIds.add((Long) em.persistAndGetId(sale));
         product = new Product(13.3f, currency);
         product = em.persist(product);
@@ -99,7 +108,7 @@ public class SaleRepositoryTest {
         product = new Product(13.3f, currency);
         product = em.persist(product);
         em.persist(new Sale(product, country, 10, Timestamp.valueOf("2018-10-30 00:00:00"), Timestamp.valueOf("2018-10-31 00:00:00")));
-        Timestamp now = Timestamp.from(Instant.now());
+        Timestamp now = Timestamp.valueOf("2018-08-18 00:00:00");
         saleRepository.findByCountryAndStartTimeBeforeAndEndTimeAfter(country, now, now).forEach(s -> ids.add(s.getId()));
         Assert.assertArrayEquals(expectedIds.toArray(), ids.toArray());
     }

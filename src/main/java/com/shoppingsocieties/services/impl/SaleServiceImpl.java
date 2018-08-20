@@ -26,10 +26,11 @@ public class SaleServiceImpl implements SaleService {
     @Autowired
     private ProductRepository productRepository;
     @Autowired
-    private CustomerRepository customerRepository;
+    private UserRepository userRepository;
     @Autowired
     private WalletRepositories walletRepositories;
 
+    @Override
     public List<Sale> getCurrentSalesByCountry(String countryCode) {
         Optional<Country> optionalCountry = countryRepository.getCountryByCode(countryCode);
         if (!optionalCountry.isPresent()) {
@@ -39,7 +40,8 @@ public class SaleServiceImpl implements SaleService {
         return saleRepository.findByCountryAndStartTimeBeforeAndEndTimeAfter(optionalCountry.get(), now, now);
     }
 
-    public void purchase(long productId, long customerId) throws PurchaseException {
+    @Override
+    public void purchaseProduct(long productId, long userId) throws PurchaseException {
         // Check if the provided product id is valid.
         Optional<Product> productOptional = productRepository.findById(productId);
         if (!productOptional.isPresent()) {
@@ -49,16 +51,16 @@ public class SaleServiceImpl implements SaleService {
         // Check if flash sale for the provided product exists.
         Sale sale = product.getSale();
         Timestamp now = Timestamp.valueOf(LocalDateTime.now());
-        if (sale == null || (sale.getStartTime().compareTo(now) <= 0 && sale.getEndTime().compareTo(now) >= 0)) {
-            throw new IllegalArgumentException(String.format("No available sales for the provided product id [%d].", productId));
+        if (sale == null || !(sale.getStartTime().compareTo(now) < 0 && sale.getEndTime().compareTo(now) > 0)) {
+            throw new PurchaseException(String.format("No available sales for the provided product id [%d].", productId));
         }
         // Check if the product has enough stock.
         if (sale.getItemsLeft() < 1)
             throw new PurchaseException("No enough stock for the required product.");
         // Check if the provided customer id is valid.
-        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+        Optional<User> optionalCustomer = userRepository.findById(userId);
         if (!optionalCustomer.isPresent()) {
-            throw new IllegalArgumentException(String.format("Invalid customer id [%d].", customerId));
+            throw new IllegalArgumentException(String.format("Invalid customer id [%d].", userId));
         }
         // Check if the customer has enough balance.
         Wallet customerWallet = optionalCustomer.get().getWallet();
@@ -80,7 +82,7 @@ public class SaleServiceImpl implements SaleService {
         customerWallet.setBalance(BigDecimal.valueOf(customerWallet.getBalance()).subtract(transferAmountInCustomerCurrency).floatValue());
         Optional<Wallet> walletOptional = walletRepositories.findById(1L);
         if (!walletOptional.isPresent())
-            throw new PaymentException("Failed to transfer to merchant. Transaction failed.");
+            throw new PaymentException("Failed to transfer to merchant.");
         Wallet merchantWallet = walletOptional.get();
         merchantWallet.setBalance(BigDecimal.valueOf(merchantWallet.getBalance()).add(
                 transferAmountInCustomerCurrency.multiply(BigDecimal.valueOf(customerWallet.getCurrency().getExchangeRate()))
@@ -88,14 +90,13 @@ public class SaleServiceImpl implements SaleService {
         ).floatValue());
     }
 
-    /**
-     * Get wallet information by the given id.
-     *
-     * @param id wallet id
-     * @return an {@link Wallet} object with the given id or null if the wallet is not found.
-     */
-    public Wallet query(long id) {
-        Optional<Wallet> optional = walletRepositories.findById(id);
-        return optional.orElse(null);
+    @Override
+    public Wallet retrieveWalletInfoByUserId(long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (!userOptional.isPresent())
+            throw new IllegalArgumentException(String.format("Invalid user id [%s].", userId));
+        if (userOptional.get().getWallet() == null)
+            throw new IllegalArgumentException(String.format("No wallet found for user id [%s].", userId));
+        return userOptional.get().getWallet();
     }
 }

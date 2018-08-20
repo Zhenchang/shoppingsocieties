@@ -13,8 +13,16 @@ public class Wallet extends Model {
     @ManyToOne
     private Currency currency;
     @OneToOne(optional = false)
-    private Customer customer;
+    private User user;
 
+    public Wallet() {
+    }
+
+    public Wallet(float balance, Currency currency, User user) {
+        this.balance = balance;
+        this.currency = currency;
+        this.user = user;
+    }
 
     public Currency getCurrency() {
         return currency;
@@ -34,12 +42,12 @@ public class Wallet extends Model {
         return this;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public User getUser() {
+        return user;
     }
 
-    public Wallet setCustomer(Customer customer) {
-        this.customer = customer;
+    public Wallet setUser(User customer) {
+        this.user = customer;
         return this;
     }
 

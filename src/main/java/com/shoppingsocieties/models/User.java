@@ -6,19 +6,19 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Customer extends Model {
+public class User extends Model {
 
     @Id
     @GeneratedValue
     private Long id;
-    @OneToOne(mappedBy = "customer")
+    @OneToOne(mappedBy = "user")
     private Wallet wallet;
 
     public Long getId() {
         return id;
     }
 
-    public Customer setId(Long id) {
+    public User setId(Long id) {
         this.id = id;
         return this;
     }
@@ -27,7 +27,7 @@ public class Customer extends Model {
         return wallet;
     }
 
-    public Customer setWallet(Wallet wallet) {
+    public User setWallet(Wallet wallet) {
         this.wallet = wallet;
         return this;
     }
