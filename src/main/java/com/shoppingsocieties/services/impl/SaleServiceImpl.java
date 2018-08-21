@@ -7,6 +7,8 @@ import com.shoppingsocieties.repositories.*;
 import com.shoppingsocieties.services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -40,6 +42,7 @@ public class SaleServiceImpl implements SaleService {
         return saleRepository.findByCountryAndStartTimeBeforeAndEndTimeAfter(optionalCountry.get(), now, now);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void purchaseProduct(long productId, long userId) throws PurchaseException {
         // Check if the provided product id is valid.
@@ -91,12 +94,10 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public Wallet retrieveWalletInfoByUserId(long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (!userOptional.isPresent())
-            throw new IllegalArgumentException(String.format("Invalid user id [%s].", userId));
-        if (userOptional.get().getWallet() == null)
-            throw new IllegalArgumentException(String.format("No wallet found for user id [%s].", userId));
-        return userOptional.get().getWallet();
+    public Wallet retrieveWalletInfoById(long walletId) {
+        Optional<Wallet> walletOptional = walletRepositories.findById(walletId);
+        if (!walletOptional.isPresent())
+            throw new IllegalArgumentException(String.format("Invalid wallet id [%s].", walletId));
+        return walletOptional.get();
     }
 }

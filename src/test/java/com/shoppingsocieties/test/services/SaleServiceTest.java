@@ -34,9 +34,7 @@ public class SaleServiceTest {
     @MockBean
     private UserRepository userRepository;
     @MockBean
-    private WalletRepositories walletRepositories;
-    @MockBean
-    private CurrencyRepository currencyRepository;
+    private WalletRepositories walletRepository;
     @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
     private SaleService saleService;
@@ -50,34 +48,21 @@ public class SaleServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void retrieveWalletInfoByUserId_InvalidUserIdTest() {
+    public void retrieveWalletInfoById_InvalidWalletIdTest() {
         try {
-            saleService.retrieveWalletInfoByUserId(123);
+            saleService.retrieveWalletInfoById(123);
         } catch (Exception e) {
-            Assert.assertTrue("Invalid user id [123].".equals(e.getMessage()));
-            throw e;
-        }
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void retrieveWalletInfoByUserId_NoWalletFoundTest() {
-        User user = new User().setId(0L);
-        Mockito.when(userRepository.findById(0L)).thenReturn(Optional.ofNullable(user));
-        try {
-            saleService.retrieveWalletInfoByUserId(user.getId());
-        } catch (Exception e) {
-            Assert.assertTrue(String.format("No wallet found for user id [%s].", user.getId()).equals(e.getMessage()));
+            Assert.assertTrue("Invalid wallet id [123].".equals(e.getMessage()));
             throw e;
         }
     }
 
     @Test
-    public void retrieveWalletInfoByUserIdTest() {
+    public void retrieveWalletInfoByIdTest() {
         User user = new User().setId(0L);
-        Wallet walletExpected = new Wallet(123.11f, currency, user).setId(0L);
-        user.setWallet(walletExpected);
-        Mockito.when(userRepository.findById(0L)).thenReturn(Optional.of(user));
-        Wallet wallet = saleService.retrieveWalletInfoByUserId(user.getId());
+        Wallet walletExpected = new Wallet(123.11f, currency, user).setId(2L);
+        Mockito.when(walletRepository.findById(2L)).thenReturn(Optional.of(walletExpected));
+        Wallet wallet = saleService.retrieveWalletInfoById(2L);
         Assert.assertEquals(wallet.getId(), walletExpected.getId());
     }
 
@@ -221,7 +206,7 @@ public class SaleServiceTest {
         Wallet merchantWallet = new Wallet(100f, currency, new User().setId(1L));
         Mockito.when(productRepository.findById(0L)).thenReturn(Optional.of(product));
         Mockito.when(userRepository.findById(0L)).thenReturn(Optional.of(user));
-        Mockito.when(walletRepositories.findById(1L)).thenReturn(Optional.of(merchantWallet));
+        Mockito.when(walletRepository.findById(1L)).thenReturn(Optional.of(merchantWallet));
         saleService.purchaseProduct(0L, 0L);
         Assert.assertTrue(sale.getItemsLeft().equals(0));
         Assert.assertTrue(wallet.getBalance().equals(49.5f));

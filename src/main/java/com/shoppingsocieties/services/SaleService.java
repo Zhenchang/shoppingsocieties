@@ -30,12 +30,12 @@ public interface SaleService {
     void purchaseProduct(long productId, long userId) throws PurchaseException;
 
     /**
-     * Get wallet information by user id.
+     * Get wallet information by wallet id.
      *
-     * @param userId user id.
-     * @return an {@link Wallet} instance or {@link IllegalArgumentException} if no wallet found.
-     * @throws java.lang.IllegalArgumentException when the provided used id doesn't exist or the wallet is not found for the given user.
+     * @param walletId wallet id.
+     * @return an {@link Wallet} instance or {@link IllegalArgumentException} if the wallet id is invalid.
+     * @throws java.lang.IllegalArgumentException when the provided wallet id is invalid.
      */
     @NotNull
-    Wallet retrieveWalletInfoByUserId(long userId);
+    Wallet retrieveWalletInfoById(long walletId);
 }
