@@ -1,10 +1,13 @@
+The project is based on JDK1.8 and uses H2 embedded database. It's tested on Linux and Windows10.
+
 ########################## Project Structure: #####################################
-./src/main:    source code.
-./src/test:    integration and unit test cod.
-./seed-data:   database ddl and seed data insert statements for seed data. (Database schema and seed data is
-               automatically generated, it's not needed to run the sql files.)
-./stress-test: jmeter stress test plan and test result.
-./pom.xml:     maven configuration file.
+./src/main:      source code.
+./src/test:      integration and unit test cod.
+./seed-data:     database ddl and seed data insert statements for seed data. (Database schema and seed data is
+                 automatically generated, it's not needed to run the sql files.)
+./stress-test:   jmeter stress test plan and test result. The test plan can be imported into jmeter to execute the stress test.
+./pom.xml:       maven configuration file.
+./requests.json: sample Restful HTTP requests, can be imported into Postman.
 
 ########################## Run unit and integration test: ##########################
 Under the root folder of the project, run command "mvn test".

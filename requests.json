@@ -1,0 +1,93 @@
+{
+	"info": {
+		"_postman_id": "4cc9555a-b0a8-49bb-b54d-45f6bb2d1e08",
+		"name": "shoppingsocieties",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get wallet info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "127.0.0.1:8080/wallet/1",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"wallet",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Purchase product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user_id\": 2\n}"
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/products/123/purchase",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"products",
+						"123",
+						"purchase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get current sales by country",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "127.0.0.1:8080/sales/current?country=SG",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"sales",
+						"current"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "SG"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
