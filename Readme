@@ -1,6 +1,6 @@
 The project is based on JDK1.8 and uses H2 embedded database. It's tested on Linux and Windows10.
 
-########################## Project Structure: #####################################
+########################## Project structure: #####################################
 ./src/main:      source code.
 ./src/test:      integration and unit test code.
 ./seed-data:     database ddl and seed data insert statements. (Database schema and seed data is
