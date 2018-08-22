@@ -14,9 +14,10 @@ import java.util.Map;
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({IllegalArgumentException.class, PaymentException.class, PurchaseException.class})
-    public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException e) {
+    public ResponseEntity<Map<String, String>> handleException(Exception e) {
         Map<String, String> errMsg = new HashMap<>();
         errMsg.put("error", e.getMessage());
+        System.out.println(e.getMessage());
         return ResponseEntity.badRequest().body(errMsg);
     }
 }

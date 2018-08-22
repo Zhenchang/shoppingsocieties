@@ -1,0 +1,17 @@
+########################## Project Structure: #####################################
+./src/main:    source code.
+./src/test:    integration and unit test cod.
+./seed-data:   database ddl and seed data insert statements for seed data. (Database schema and seed data is
+               automatically generated, it's not needed to run the sql files.)
+./stress-test: jmeter stress test plan and test result.
+./pom.xml:     maven configuration file.
+
+########################## Run unit and integration test: ##########################
+Under the root folder of the project, run command "mvn test".
+
+########################## Compile and build project: ##############################
+Under the root folder of the project, run command "mvn package", a runnable jar file will be generated under
+./target folder.
+
+########################## Run the built project: ##################################
+Run command "java -jar <path-to-the-jar-file>"

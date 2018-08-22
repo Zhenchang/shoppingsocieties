@@ -6,9 +6,11 @@ import javax.persistence.*;
 public class Wallet extends Model {
 
     @Id
-    @SequenceGenerator(name = "seq", sequenceName = "WALLET_ID_SEQ", initialValue = 2)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+//    @SequenceGenerator(name = "seq", sequenceName = "WALLET_ID_SEQ", initialValue = 2)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(scale = 2)
     private Float balance;
     @ManyToOne
     private Currency currency;

@@ -70,6 +70,9 @@ public class SaleServiceImpl implements SaleService {
         if (customerWallet == null) {
             throw new PaymentException("No wallet available. Please bind a wallet first.");
         }
+        if (customerWallet.getId().equals(1L)) {
+            throw new PaymentException("Can not make payment by merchant account.");
+        }
         BigDecimal balanceInSGD = BigDecimal.valueOf(customerWallet.getBalance()).multiply(BigDecimal.valueOf(customerWallet.getCurrency().getExchangeRate()));
         BigDecimal priceInSGD = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(product.getCurrency().getExchangeRate()));
         if (balanceInSGD.compareTo(priceInSGD) < 0) {

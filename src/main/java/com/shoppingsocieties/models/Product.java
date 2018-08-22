@@ -6,8 +6,9 @@ import javax.persistence.*;
 public class Product extends Model {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(scale = 2)
     private Float price;
     @ManyToOne(optional = false)
     private Currency currency;
@@ -17,12 +18,7 @@ public class Product extends Model {
     public Product() {
     }
 
-    public Product(long id) {
-        this.id = id;
-    }
-
     public Product(float price, Currency currency) {
-        this.id = id;
         this.price = price;
         this.currency = currency;
     }

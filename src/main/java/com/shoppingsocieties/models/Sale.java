@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 public class Sale extends Model {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @OneToOne(optional = false)
     private Product product;
